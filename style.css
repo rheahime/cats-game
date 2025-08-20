@@ -1,0 +1,544 @@
+/*
+ * ========================================
+ * 1. FONTS
+ * ========================================
+ */
+@font-face {
+    font-family: 'Mystery Quest';
+    src: url('fonts/MysteryQuest-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Gamja Flower';
+    src: url('fonts/GamjaFlower-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*
+ * ========================================
+ * 2. MAIN LAYOUT & BACKGROUND
+ * ========================================
+ */
+body {
+    background-color: #faefc5;
+    background-image: url('assets/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    font-family: 'Gamja Flower', cursive;
+    min-height: 100vh;
+  animation: background-pan 60s linear infinite alternate;
+}
+@keyframes background-pan {
+    0% { background-position: 50% 50%; }
+    100% { background-position: 70% 50%; } /* Subtle shift */
+}
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/*
+ * ========================================
+ * 3. MAIN MENU
+ * ========================================
+ */
+.main-menu {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.game-title {
+    font-family: 'Mystery Quest', cursive;
+    font-size: 4.5rem;
+    color: #000;
+    margin: 0;
+}
+
+/*
+ * ========================================
+ * 4. ANIMATED CAT & TAIL
+ * ========================================
+ */
+.animated-cat {
+    width: 150px;
+    height: 150px;
+    overflow: visible;
+}
+
+/* This targets the cat's body parts with class 'st43' and forces the color change */
+.animated-cat .st43 {
+    fill: #808080 !important;
+}
+/* This is the keyframe animation for the brow */
+	@keyframes brow-move {
+	  0% { transform: translateY(0); }
+	  50% { transform: translateY(-10px); }
+	  100% { transform: translateY(0); }
+	}
+
+	.brow {
+	  animation: brow-move 2s infinite alternate ease-in-out;
+	}
+
+/* This is the keyframe animation for the tail */
+@keyframes tail-wag {
+    0% { transform: rotate(0deg); transform-origin: center bottom; }
+    50% { transform: rotate(5deg); transform-origin: center bottom; }
+    100% { transform: rotate(0deg); transform-origin: center bottom; }
+}
+.cat-tail {
+    animation: tail-wag 2s infinite ease-in-out;
+}
+
+/* This targets all the cat's body parts and forces the fill color */
+.animated-cat .st0, .animated-cat .st1, .animated-cat .st2, .animated-cat .st3, .animated-cat .st4, .animated-cat .st8, .animated-cat .st10, .animated-cat .st12, .animated-cat .st14, .animated-cat .st15, .animated-cat .st16, .animated-cat .st17, .animated-cat .st18, .animated-cat .st19, .animated-cat .st21, .animated-cat .st22, .animated-cat .st24, .animated-cat .st25, .animated-cat .st28, .animated-cat .st31, .animated-cat .st32, .animated-cat .st34, .animated-cat .st39, .animated-cat .st40, .animated-cat .st43,  .animated-cat .st46, .animated-cat .st48, .animated-cat .st52, .animated-cat .st54, .animated-cat .st55, .animated-cat .st58, .animated-cat .st59, .animated-cat .st62, .animated-cat .st63, .animated-cat .st66, .animated-cat .st67, .animated-cat .st68, .animated-cat .st76, .animated-cat .st77, .animated-cat .st78, .animated-cat .st81, .animated-cat .st84 {
+    fill: #808080 !important;}
+
+/*
+ * ========================================
+ * 5. BUTTONS
+ * ========================================
+ */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.menu-button {
+    background-color: white;
+    color: black;
+    font-family: 'Gamja Flower', cursive;
+    font-size: 1.75rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 200px;
+    transition: background-color 0.2s, border 0.2s, color 0.2s;
+}
+.menu-button.highlight {
+    background-color: #fcae1c;
+    border: 2px solid white;
+    color: white;
+}
+.icon-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+}
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #000;
+    padding: 10px;
+}
+/*
+ * ========================================
+ * 6. GAME CONTAINERS & FULL-SCREEN
+ * ========================================
+ */
+.game-container {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Use a single padding declaration to be explicit */
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: 20px; /* Optional: adds a horizontal buffer */
+    padding-right: 20px; /* Optional: adds a horizontal buffer */
+    box-sizing: border-box;
+}
+
+.game-container h2 {
+    font-family: 'Mystery Quest', cursive;
+    font-size: 3rem;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.game-board {
+    display: grid;
+    gap: 10px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    /* Added to ensure buttons appear on top of canvas */
+    position: relative;
+    z-index: 2;
+}
+
+/* Kitty Run Specific Styles */
+#kittyRunCanvas {
+    /* Use position absolute to make it full screen behind the buttons */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Puts the canvas behind the buttons */
+    /* Keep these styling properties from your original code */
+    background-color: #9fc7aa;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.kitty-run-cat {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    height: auto;
+    width: 77px; /* Default size before scaling */
+    z-index: 10; /* Ensures the cat is on top of the canvas */
+}
+
+/* Adjust button sizes for games */
+.game-buttons .menu-button {
+    width: 150px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+}
+/*
+ * ========================================
+ * 7. CREDITS PAGE
+ * ========================================
+ */
+.credits-content {
+    font-family: 'Gamja Flower', cursive;
+    font-size: 1.5rem;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    text-align: left;
+    
+    /* Make the credits box scrollable */
+    max-height: 50vh; /* This sets the maximum height to 50% of the viewport height */
+    overflow-y: auto;
+}
+/*
+ * ========================================
+ * 8. FULL-SCREEN GAME CONTAINERS
+ * ========================================
+ */
+.game-container {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#kittyRunGame .game-container {
+    background-color: transparent; /* Kitty Run uses the canvas background */
+}
+
+#kittyRunCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Puts the canvas behind the buttons */
+/* New background image properties */
+    background-image: url('assets/kitty-run-bg-1.svg'); /* Change this path to your image file! */
+    background-size: cover; /* This makes the image fill the entire screen */
+    background-position: center; /* This centers the image */
+    background-repeat: no-repeat; /* This prevents the image from tiling */
+
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#kittyRunGame .game-buttons {
+    z-index: 2; /* Make sure buttons are on top of the canvas */
+    position: relative;
+}
+/* At the bottom of your CSS file */
+@media (max-width: 400px) {
+    .game-title {
+        font-size: 3.5rem; /* Smaller title on tiny screens */
+    }
+    .menu-button {
+        font-size: 1.5rem; /* Smaller button text */
+    }
+    .credits-content {
+        font-size: 1.2rem;
+    }
+}
+/*
+ * ========================================
+ * 9. UTILITY CLASSES
+ * ========================================
+ */
+.hidden {
+    display: none;
+}
+/*
+ * ========================================
+ * 10. IN-GAME BUTTONS
+ * ========================================
+ */
+
+/* This rule will hide the controls container by default */
+.game-controls {
+    display: none; /* Hide the container by default */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99;
+}
+
+/* This rule will override the 'display: none' when a game is active */
+#kittyRunGame.game-active ~ .game-controls {
+    display: flex;
+}
+
+/* This rule handles the new pause menu container */
+.pause-menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 100;
+}
+
+/* Use a class to easily hide and show the menu */
+.pause-menu.hidden {
+    display: none;
+}
+
+/* A utility class to hide any icon button */
+.icon-button.hidden {
+    display: none !important;
+}
+
+/* These rules are for your toggle switch and are fine as they are */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.toggle-label {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+/*
+ * ========================================
+ * 11. SETTINGS & CREDITS PAGE
+ * ========================================
+ */
+#creditsPage {
+  /* Set credits page to be a flex container */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align content from the top */
+  align-items: center; /* Center content horizontally */
+  gap: 20px; /* Space between main sections */
+  overflow-y: auto; /* Allow scrolling if content is too long */
+}
+
+/* Container for the toggles and labels */
+.settings-toggles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Space between the music and sfx toggles */
+}
+
+/* Container for the buttons below the toggles */
+.settings-menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between the donate and credits buttons */
+}
+
+/* New: Style for the labels and toggles on the same line */
+.toggle-switch-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 250px; /* Adjust width as needed to align items */
+}
+
+/*
+ * ========================================
+ * 12. NEW SETTINGS BUTTON GROUP
+ * ========================================
+ */
+.settings-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the button and content block */
+    gap: 10px; /* Space between the button and its content */
+}
+/*
+ * ========================================
+ * 13. MODAL STYLING
+ * ========================================
+ */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-content {
+    background-color: #bde0ab;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+
+.modal-content h2 {
+    font-family: 'Gamja Flower', cursive;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: #000;
+}
+
+.modal-content .menu-button {
+    margin-top: 10px;
+    width: auto;
+    min-width: 150px;
+}
+
+.modal.hidden {
+    display: none;
+}
